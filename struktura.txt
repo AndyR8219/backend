@@ -1,16 +1,24 @@
 {
-  "_id": '423042830823042',
-  "title": 'test',
-  "questions":[
+  "_id": "423042830823042",
+  "title": "test",
+  "questions": [
     {
-      "id": '1241414',
-      "title": 'question1',
-      "isCorrect": false
-    },
-    {
-      "id": '12414142',
-      "title": 'question2',
-      "isCorrect": true
+      "id": "1241414",
+      "title": "React - это ... ?",
+      "answers":[
+        {
+          "title":"библиотека",
+          "isCorrect": true
+        },
+        {
+          "title":"библиотека",
+          "isCorrect": false
+        },
+        {
+          "title":"библиотека",
+          "isCorrect": false
+        }
+      ]
     }
   ]
 }

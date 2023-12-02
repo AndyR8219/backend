@@ -7,9 +7,13 @@ const TestSchema = mongoose.Schema({
   },
   questions: [
     {
-      id: String,
       title: String,
-      isCorrect: Boolean,
+      answers: [
+        {
+          title: String,
+          isCorrect: Boolean,
+        },
+      ],
     },
   ],
 })
