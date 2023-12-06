@@ -7,11 +7,20 @@ const TestSchema = mongoose.Schema({
   },
   questions: [
     {
-      title: String,
+      title: {
+        type: String,
+        required: true,
+      },
       answers: [
         {
-          title: String,
-          isCorrect: Boolean,
+          title: {
+            type: String,
+            required: true,
+          },
+          isCorrect: {
+            type: Boolean,
+            required: true,
+          },
         },
       ],
     },

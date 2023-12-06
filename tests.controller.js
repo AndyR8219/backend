@@ -7,6 +7,42 @@ const Test = require('./models/Test')
 //   console.log(chalk.bgGreen('Note was added!'))
 // }
 
+async function initializeFirstTest() {
+  try {
+    const existingTest = await Test.findOne()
+
+    if (!existingTest) {
+      await Test.create({
+        title: 'Frontend Test',
+        questions: [
+          {
+            title: 'React - это... ?',
+            answers: [
+              {
+                title: 'библиотека',
+                isCorrect: true,
+              },
+              {
+                title: 'фреймворк',
+                isCorrect: false,
+              },
+              {
+                title: 'приложение',
+                isCorrect: false,
+              },
+            ],
+          },
+        ],
+      })
+      console.log('Первая запись в коллекции "tests" была инициализирована.')
+    } else {
+      console.log('В коллекции "tests" уже есть записи.')
+    }
+  } catch (error) {
+    console.error('Произошла ошибка:', error.message)
+  }
+}
+
 async function getTests() {
   const tests = await Test.find()
   return tests
@@ -33,4 +69,5 @@ module.exports = {
   // getQuestions,
   // removeNote,
   // updateNote,
+  initializeFirstTest,
 }
