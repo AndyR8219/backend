@@ -1,73 +1,73 @@
-const chalk = require('chalk')
-const Test = require('./models/Test')
+const TestModel = require('./models/Test.js')
 
-// async function addNote(title) {
-//   await Note.create({ title })
-
-//   console.log(chalk.bgGreen('Note was added!'))
-// }
-
-async function initializeFirstTest() {
+const getAllTests = async (_, res) => {
   try {
-    const existingTest = await Test.findOne()
-
-    if (!existingTest) {
-      await Test.create({
-        title: 'Frontend Test',
-        questions: [
-          {
-            title: 'React - это... ?',
-            answers: [
-              {
-                title: 'библиотека',
-                isCorrect: true,
-              },
-              {
-                title: 'фреймворк',
-                isCorrect: false,
-              },
-              {
-                title: 'приложение',
-                isCorrect: false,
-              },
-            ],
-          },
-        ],
-      })
-      console.log('Первая запись в коллекции "tests" была инициализирована.')
-    } else {
-      console.log('В коллекции "tests" уже есть записи.')
-    }
-  } catch (error) {
-    console.error('Произошла ошибка:', error.message)
+    const tests = await TestModel.find()
+    res.json(tests)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      message: 'Не удалось получить тесты',
+    })
   }
 }
 
-async function getTests() {
-  const tests = await Test.find()
-  return tests
+const getOneTest = async (req, res) => {
+  try {
+    const testId = req.params.id
+
+    const test = await TestModel.findOne({
+      _id: testId,
+    })
+    res.json(test)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      message: 'Не удалось получить тест',
+    })
+  }
 }
 
-// async function getQuestions() {
-//   const tests = await Test.find({ questions }).exec()
-//   console.log(tests)
-//   return tests
-// }
-// async function removeNote(id) {
-//   await Note.deleteOne({ _id: id })
-//   console.log(chalk.red(`Note with id="${id}" has been removed.`))
-// }
+const createTest = async (req, res) => {
+  try {
+    const doc = new TestModel(req.body)
 
-// async function updateNote(noteData) {
-//   await Note.updateOne({ _id: noteData.id }, { title: noteData.title })
-//   console.log(chalk.bgGreen(`Note with id="${noteData.id}" has been updated!`))
-// }
+    const newTest = await doc.save()
+
+    res.json(newTest)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      message: 'Не удалось создать тест',
+    })
+  }
+}
+
+const updateTest = async (req, res) => {
+  try {
+    const testId = req.params.id
+
+    await TestModel.updateOne(
+      {
+        _id: testId,
+      },
+      req.body
+    )
+
+    res.json({
+      success: true,
+    })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      message: 'Не удалось обновить тест',
+    })
+  }
+}
 
 module.exports = {
-  // addNote,
-  getTests,
-  // getQuestions,
-  // removeNote,
-  // updateNote,
-  initializeFirstTest,
+  getAllTests,
+  getOneTest,
+  createTest,
+  updateTest,
 }
